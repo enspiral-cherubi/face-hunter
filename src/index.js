@@ -11,8 +11,8 @@ $('body').append($previewCanvas)
 var encoder = new GIFEncoder(previewCanvasSize, previewCanvasSize)
 var $progressIndicator = $('#progress-indicator')
 
-var $videoPlayer = $('#video-player')
-var frameTime = 1 / 25
+var $videoPlayer = $('<video muted controls id="video-player"></video>')
+var frameTime = 1 / 5
 
 $('#video-file').on('change', function (e) {
   var videoFile = this.files[0]
