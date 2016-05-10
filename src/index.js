@@ -28,6 +28,8 @@ $('#video-file').on('change', function (e) {
   $videoPlayer.on('loadeddata', function () {
     var $this = $(this)
     $rawCanvas = $(`<canvas id="raw-canvas" width="${$this.width()}" height="${$this.height()}"></canvas>`)
+    rawCanvasContext = $rawCanvas[0].getContext('2d')
+
     $videoPlayer[0].currentTime = i
     encoder.start()
     encoder.setRepeat(0)
@@ -36,7 +38,7 @@ $('#video-file').on('change', function (e) {
   })
 
   $videoPlayer.on('seeked', function () {
-    generateFaceThumbnails(i)
+    addFaceFramesToGIF()
     i += frameTime
 
     if (i < $videoPlayer[0].duration) {
@@ -49,19 +51,16 @@ $('#video-file').on('change', function (e) {
     }
   })
 
-  function generateFaceThumbnails (i) {
-    rawCanvasContext = rawCanvasContext || $rawCanvas[0].getContext('2d')
+  function addFaceFramesToGIF () {
     rawCanvasContext.drawImage($videoPlayer[0], 0, 0, $videoPlayer.width(), $videoPlayer.height())
 
     $rawCanvas.faceDetection({
       minneighbors: 4,
       complete: function (faces) {
-        if (faces && faces.length > 0) {
-          faces.forEach((face) => {
-            croppedCanvasContext.drawImage($rawCanvas[0], face.x, face.y, face.width, face.height, 0, 0, croppedCanvasSize, croppedCanvasSize)
-            encoder.addFrame(croppedCanvasContext)
-          })
-        }
+        faces.forEach((face) => {
+          croppedCanvasContext.drawImage($rawCanvas[0], face.x, face.y, face.width, face.height, 0, 0, croppedCanvasSize, croppedCanvasSize)
+          encoder.addFrame(croppedCanvasContext)
+        })
       }
     })
   }
