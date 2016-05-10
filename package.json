@@ -35,6 +35,8 @@
   "homepage": "https://github.com/enspiral-cherubi/face-hunter",
   "dependencies": {
     "canvas-to-buffer": "^1.0.9",
+    "downloadjs": "^1.4.2",
+    "gifencoder": "^1.0.6",
     "image-juggler": "^1.0.0",
     "jquery": "^2.2.3",
     "jquery-facedetection": "^1.0.0"

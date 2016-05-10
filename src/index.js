@@ -3,12 +3,20 @@ import faceDetection from 'jquery-facedetection'
 faceDetection($)
 import Frame from 'canvas-to-buffer'
 import jug from 'image-juggler'
+import GIFEncoder from 'gifencoder'
+import download from 'downloadjs'
 
-var $canvas;
+var $rawCanvas;
+var rawCanvasContext;
+var croppedCanvasSize = 150;
+var $croppedCanvas = $(`<canvas id="cropped-canvas" width="${croppedCanvasSize}" height="${croppedCanvasSize}"></canvas>`);
+var croppedCanvasContext = $croppedCanvas[0].getContext('2d')
+$('body').append($croppedCanvas)
+var encoder = new GIFEncoder(croppedCanvasSize, croppedCanvasSize);
+
 var $videoPlayer;
-var context;
 var $thumbnailContainer = $('#thumbnail-container')
-var frameTime = 1 / 3
+var frameTime = 1 / 25
 
 $('#video-file').on('change', function (e) {
   var videoFile = this.files[0]
@@ -19,8 +27,12 @@ $('#video-file').on('change', function (e) {
   var i = 0
   $videoPlayer.on('loadeddata', function () {
     var $this = $(this)
-    $canvas = $(`<canvas id="canvas" width="${$this.width()}" height="${$this.height()}"></canvas>`)
+    $rawCanvas = $(`<canvas id="raw-canvas" width="${$this.width()}" height="${$this.height()}"></canvas>`)
     $videoPlayer[0].currentTime = i
+    encoder.start()
+    encoder.setRepeat(0)
+    encoder.setDelay(frameTime)
+    encoder.setQuality(10)
   })
 
   $videoPlayer.on('seeked', function () {
@@ -30,23 +42,24 @@ $('#video-file').on('change', function (e) {
     if (i < $videoPlayer[0].duration) {
       $videoPlayer[0].currentTime = i
     } else {
-      console.log('done!')
+      encoder.finish()
+      var buf = encoder.out.getData()
+      var blob = new Blob([buf], {type: 'image/gif'})
+      download(blob, 'meow.gif', 'image/gif')
     }
   })
 
   function generateFaceThumbnails (i) {
-    context = context || $canvas[0].getContext('2d')
-    context.drawImage($videoPlayer[0], 0, 0, $videoPlayer.width(), $videoPlayer.height())
+    rawCanvasContext = rawCanvasContext || $rawCanvas[0].getContext('2d')
+    rawCanvasContext.drawImage($videoPlayer[0], 0, 0, $videoPlayer.width(), $videoPlayer.height())
 
-    $canvas.faceDetection({
+    $rawCanvas.faceDetection({
       minneighbors: 4,
       complete: function (faces) {
         if (faces && faces.length > 0) {
           faces.forEach((face) => {
-            let imageData = context.getImageData(face.x, face.y, face.width, face.height)
-            jug.imageDataToImage(imageData, null, (err, img) => {
-              $thumbnailContainer.append(img)
-            })
+            croppedCanvasContext.drawImage($rawCanvas[0], face.x, face.y, face.width, face.height, 0, 0, croppedCanvasSize, croppedCanvasSize)
+            encoder.addFrame(croppedCanvasContext)
           })
         }
       }
