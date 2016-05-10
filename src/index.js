@@ -8,7 +8,7 @@ var $canvas;
 var $videoPlayer;
 var context;
 var $thumbnailContainer = $('#thumbnail-container')
-var frameTime = 1 / 30
+var frameTime = 1 / 3
 
 $('#video-file').on('change', function (e) {
   var videoFile = this.files[0]
@@ -17,11 +17,9 @@ $('#video-file').on('change', function (e) {
   $videoPlayer.attr('src', videoSrc)
 
   var i = 0
-
   $videoPlayer.on('loadeddata', function () {
     var $this = $(this)
     $canvas = $(`<canvas id="canvas" width="${$this.width()}" height="${$this.height()}"></canvas>`)
-    $('body').append($canvas)
     $videoPlayer[0].currentTime = i
   })
 
@@ -41,6 +39,7 @@ $('#video-file').on('change', function (e) {
     context.drawImage($videoPlayer[0], 0, 0, $videoPlayer.width(), $videoPlayer.height())
 
     $canvas.faceDetection({
+      minneighbors: 4,
       complete: function (faces) {
         if (faces && faces.length > 0) {
           faces.forEach((face) => {
@@ -52,10 +51,5 @@ $('#video-file').on('change', function (e) {
         }
       }
     })
-
-    // var dataURL = $canvas[0].toDataURL()
-    // var $img = $(`<img src="${dataURL}"></img>`)
-    // $thumbnailContainer.append($img)
   }
-
 })
