@@ -1,4 +1,7 @@
 import $ from 'jquery'
+import faceDetection from 'jquery-facedetection'
+faceDetection($)
+import Frame from 'canvas-to-buffer'
 
 var $canvas;
 var $videoPlayer;
@@ -22,7 +25,7 @@ $('#video-file').on('change', function (e) {
   })
 
   $videoPlayer.on('seeked', function () {
-    generateThumbnail(i)
+    generateFaceThumbnails(i)
     i += frameTime
 
     if (i < $videoPlayer[0].duration) {
@@ -32,9 +35,16 @@ $('#video-file').on('change', function (e) {
     }
   })
 
-  function generateThumbnail (i) {
+  function generateFaceThumbnails (i) {
     context = context || $canvas[0].getContext('2d')
     context.drawImage($videoPlayer[0], 0, 0, $videoPlayer.width(), $videoPlayer.height())
+
+    $canvas.faceDetection({
+      complete: function (faces) {
+        console.log(`${faces.length} faces found!`)
+      }
+    })
+
     // var dataURL = $canvas[0].toDataURL()
     // var $img = $(`<img src="${dataURL}"></img>`)
     // $thumbnailContainer.append($img)
