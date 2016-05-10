@@ -2,6 +2,7 @@ import $ from 'jquery'
 import faceDetection from 'jquery-facedetection'
 faceDetection($)
 import Frame from 'canvas-to-buffer'
+import jug from 'image-juggler'
 
 var $canvas;
 var $videoPlayer;
@@ -41,7 +42,14 @@ $('#video-file').on('change', function (e) {
 
     $canvas.faceDetection({
       complete: function (faces) {
-        console.log(`${faces.length} faces found!`)
+        if (faces && faces.length > 0) {
+          faces.forEach((face) => {
+            let imageData = context.getImageData(face.x, face.y, face.width, face.height)
+            jug.imageDataToImage(imageData, null, (err, img) => {
+              $thumbnailContainer.append(img)
+            })
+          })
+        }
       }
     })
 
