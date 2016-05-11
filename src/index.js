@@ -11,17 +11,17 @@ var videoFaceDownloader = new VideoFaceDownloader({
 
 $('#video-file').on('change', function (e) {
   var videoFile = this.files[0]
+
   videoFaceDownloader.downloadGIF({
     file: videoFile,
     onLoad: function (canvas) {
-      console.log('video loaded!')
       $('body').append(canvas)
     },
     onProgress: function (progress) {
       $progressIndicator.text(`${progress}%`)
     },
     onComplete: function () {
-      console.log('done!')
+      $progressIndicator.text('100%')
     }
   })
 })
