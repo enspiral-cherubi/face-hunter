@@ -65,6 +65,10 @@ body {
   display: none;
 }
 
+#gif {
+  margin-top: 20px;
+}
+
 /* progress container */
 
 #progress-container {
