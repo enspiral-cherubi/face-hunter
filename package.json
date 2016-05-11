@@ -1,7 +1,7 @@
 {
   "name": "face-hunter",
   "version": "1.0.0",
-  "description": "reduces a video down to its faces",
+  "description": "tries to detect human faces in an uploaded video and splices them into a GIF",
   "main": "./src/index.js",
   "scripts": {
     "start": "budo . -d --serve bundle.js --live",
