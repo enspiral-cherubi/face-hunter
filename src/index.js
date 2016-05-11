@@ -5,9 +5,10 @@ var $progressIndicator = $('#progress-indicator')
 $('#video-file').on('change', function (e) {
   downloadFacesFromVideoAsGIF({
     gifSize: 150,
-    frameRate: 10,
+    frameRate: 5,
     file: this.files[0],
     onLoad: function (canvas) {
+      $('img').remove()
       $('body').append(canvas)
     },
     onProgress: function (progress) {
