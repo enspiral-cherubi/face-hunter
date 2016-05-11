@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8" />
+    <title>face-hunter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="index.css" rel="stylesheet" />
+  </head>
+  <body>
+    <header id="header">
+      <h1 id="header-text"><em>face-hunter</em></h1>
+
+      <p id="description">
+        tries to detect human faces in most frames of an uploaded video and splices them into a GIF
+      </p>
+    </header>
+
+    <div id="divider"></div>
+
+    <div id="upload-container">
+
+      <div id="upload-params">
+        <div id="range-inputs">
+          <div class="range-input-container">
+            <label class="range-input-label" for="gif-size-range">gif size [<span id="gif-size-range-value">300</span>px]</label>
+            <input type="range" id="gif-size-range" class="range-input" value="300" min="50" max="500" step="50"/>
+          </div>
+
+          <div class="range-input-container" id="frame-rate-range-input-container">
+            <label class="range-input-label" for="frame-rate-range">carefulness [<span id="frame-rate-range-value">10</span>]</label>
+            <input type="range" id="frame-rate-range" class="range-input" value="10" min="1" max="25" />
+          </div>
+        </div>
+
+        <input type="file" id="video-file" />
+        <div type="button" id="upload-btn">upload video</div>
+      </div>
+
+      <div id="progress-container">
+        <div id="progress-indicator">0.00% processed . . .</div>
+        <div id="progress-warning"><em><span class="rotating-smiley">ツ</span> this could take a while<span class="rotating-smiley">ツ</span></em></div>
+      </div>
+    </div>
+
+    <script src="bundle.js"></script>
+  </body>
+</html>
