@@ -8,7 +8,7 @@ import parsePath from 'parse-filepath'
 function downloadFacesFromVideoAsGIF (args) {
   var { gifSize, frameRate, file, onLoad, onProgress, onComplete } = args
 
-  var $canvas = $(`<canvas width="${gifSize}" height="${gifSize}"></canvas>`)
+  var $canvas = $(`<canvas id="preview-canvas" width="${gifSize}" height="${gifSize}"></canvas>`)
   var context = $canvas[0].getContext('2d')
   var encoder = new GIFEncoder(gifSize, gifSize)
   var $video = $('<video muted></video>')
