@@ -1,6 +1,13 @@
 import $ from 'jquery'
 import downloadFacesFromVideoAsGIF from './download-faces-from-video-as-gif.js'
+import bowser from 'bowser'
 var $progressIndicator = $('#progress-indicator')
+
+if (bowser.chrome || bowser.firefox) {
+  $('#content').show()
+} else {
+  $('#browser-warning-screen').show()
+}
 
 $('#upload-btn').click(() => {
   $('#video-file').trigger('click')
@@ -17,7 +24,7 @@ $('#video-file').on('change', function (e) {
 
   downloadFacesFromVideoAsGIF({
     gifSize: gifSize,
-    frameRate: frameRate, 
+    frameRate: frameRate,
     file: this.files[0],
     onLoad: function (canvas) {
       $('img').remove()

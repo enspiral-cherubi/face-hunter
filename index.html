@@ -7,38 +7,50 @@
     <link href="index.css" rel="stylesheet" />
   </head>
   <body>
-    <header id="header">
-      <h1 id="header-text"><em>face-hunter</em></h1>
+    <div id="browser-warning-screen">
+      <div id="browser-warning-msg">hi ~~ this experiment requires that you use chrome or firefox</div>
+    </div>
 
-      <p id="description">
-        tries to detect human faces in most frames of an uploaded video and splices them into a GIF
-      </p>
-    </header>
+    <div id="content">
+      <header id="header">
+        <h1 id="header-text"><em>face-hunter</em></h1>
 
-    <div id="divider"></div>
+        <p id="description">
+          tries to detect human faces in most frames of an uploaded video and splices them into a GIF
+          <br><br>
+          this can probably handle medium-res videos < 5 min
+          <br><br>
+          you can use <a href="http://keepvid.com/" target="_blank">keepvid</a> to download videos from youtube, vimeo, etc ..
+          <br><br>
+          <a href="https://github.com/enspiral-cherubi/face-hunter" target="_blank">source</a>
+        </p>
+      </header>
 
-    <div id="upload-container">
+      <div id="divider"></div>
 
-      <div id="upload-params">
-        <div id="range-inputs">
-          <div class="range-input-container">
-            <label class="range-input-label" for="gif-size-range">gif size [<span id="gif-size-range-value">300</span>px]</label>
-            <input type="range" id="gif-size-range" class="range-input" value="300" min="50" max="500" step="50"/>
+      <div id="upload-container">
+
+        <div id="upload-params">
+          <div id="range-inputs">
+            <div class="range-input-container">
+              <label class="range-input-label" for="gif-size-range">gif size [<span id="gif-size-range-value">300</span>px]</label>
+              <input type="range" id="gif-size-range" class="range-input" value="300" min="50" max="500" step="50"/>
+            </div>
+
+            <div class="range-input-container" id="frame-rate-range-input-container">
+              <label class="range-input-label" for="frame-rate-range">thoroughness [<span id="frame-rate-range-value">2</span>]</label>
+              <input type="range" id="frame-rate-range" class="range-input" value="2" min="1" max="5" />
+            </div>
           </div>
 
-          <div class="range-input-container" id="frame-rate-range-input-container">
-            <label class="range-input-label" for="frame-rate-range">carefulness [<span id="frame-rate-range-value">10</span>]</label>
-            <input type="range" id="frame-rate-range" class="range-input" value="10" min="1" max="25" />
-          </div>
+          <input type="file" id="video-file" />
+          <div type="button" id="upload-btn">upload video</div>
         </div>
 
-        <input type="file" id="video-file" />
-        <div type="button" id="upload-btn">upload video</div>
-      </div>
-
-      <div id="progress-container">
-        <div id="progress-indicator">0.00% processed . . .</div>
-        <div id="progress-warning"><em><span class="rotating-smiley">ツ</span> this could take a while<span class="rotating-smiley">ツ</span></em></div>
+        <div id="progress-container">
+          <div id="progress-indicator">0.00% processed . . .</div>
+          <div id="progress-warning"><em><span class="rotating-smiley">ツ</span>plz leave this tab open, this could take a while<span class="rotating-smiley">ツ</span></em></div>
+        </div>
       </div>
     </div>
 
