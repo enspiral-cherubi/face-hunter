@@ -4,68 +4,49 @@ faceDetection($)
 import GIFEncoder from 'gifencoder'
 import download from 'downloadjs'
 
-class VideoFaceDownloader {
+export default function (args) {
+  var { gifSize, frameRate, file, onLoad, onProgress, onComplete } = args
 
-  constructor (opts = {}) {
-    this.opts = opts
-    this.$canvas = $(`<canvas width="${opts.gifSize}" height="${opts.gifSize}"></canvas>`)
-    this.context = this.$canvas[0].getContext('2d')
-    this.encoder = new GIFEncoder(opts.gifSize, opts.gifSize)
-    this.$video = $('<video muted></video>')
-  }
+  var $canvas = $(`<canvas width="${gifSize}" height="${gifSize}"></canvas>`)
+  var context = $canvas[0].getContext('2d')
+  var encoder = new GIFEncoder(gifSize, gifSize)
+  var $video = $('<video muted></video>')
 
-  downloadGIF (opts) {
-    var videoSrc = window.URL.createObjectURL(opts.file)
-    this.$video.attr('src', videoSrc)
+  var videoSrc = window.URL.createObjectURL(file)
+  $video.attr('src', videoSrc)
 
-    var self = this
+  var i = 0
+  $video.on('loadeddata', function () {
+    this.currentTime = i
+    encoder.start()
+    encoder.setRepeat(0)
+    encoder.setDelay(40) // 25 fps
+    encoder.setQuality(10)
+    if (onLoad) { onLoad($canvas[0]) }
+  })
 
-    var i = 0
-    this.$video.on('loadeddata', function () {
-      this.currentTime = i
-      self.encoder.start()
-      self.encoder.setRepeat(0)
-      self.encoder.setDelay(40) // 25 fps
-      self.encoder.setQuality(10)
-      opts.onLoad(self.$canvas[0])
-    })
+  $video.on('seeked', function () {
+    i += 1 / frameRate
 
-    this.$video.on('seeked', function () {
-      i += 1 / self.opts.frameRate
-      
-      self._addFaceFramesToGIF()
-
-      if (i < self.$video[0].duration) {
-        self.$video[0].currentTime = i
-        opts.onProgress(self._downloadProgress())
-      } else {
-        self.encoder.finish()
-        var blob = new Blob([self.encoder.out.getData()], {type: 'image/gif'})
-        download(blob, 'meow.gif', 'image/gif')
-        opts.onComplete()
-      }
-    })
-  }
-
-  // 'private'
-
-  _addFaceFramesToGIF () {
-    this.$video.faceDetection({
-      interval: 1,
-      minneighbors: 1,
+    $(this).faceDetection({
+      interval: 4,
+      minneighbors: 4,
       complete: (faces) => {
         faces.forEach((face) => {
-          this.context.drawImage(this.$video[0], face.x, face.y, face.width, face.height, 0, 0, this.opts.gifSize, this.opts.gifSize)
-          this.encoder.addFrame(this.context)
+          context.drawImage(this, face.x, face.y, face.width, face.height, 0, 0, gifSize, gifSize)
+          encoder.addFrame(context)
         })
       }
     })
-  }
 
-  _downloadProgress () {
-    return (this.$video[0].currentTime / this.$video[0].duration * 100).toFixed(2)
-  }
-
+    if (i < this.duration) {
+      this.currentTime = i
+      if (onProgress) { onProgress((this.currentTime / this.duration * 100).toFixed(2)) }
+    } else {
+      encoder.finish()
+      var blob = new Blob([encoder.out.getData()], {type: 'image/gif'})
+      download(blob, 'meow.gif', 'image/gif')
+      if (onComplete) { onComplete() }
+    }
+  })
 }
-
-export default VideoFaceDownloader

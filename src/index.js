@@ -1,19 +1,12 @@
 import $ from 'jquery'
-
-import VideoFaceDownloader from './video-face-downloader.js'
-
+import videoFaceDownloader from './video-face-downloader.js'
 var $progressIndicator = $('#progress-indicator')
 
-var videoFaceDownloader = new VideoFaceDownloader({
-  gifSize: 150,
-  frameRate: 1
-})
-
 $('#video-file').on('change', function (e) {
-  var videoFile = this.files[0]
-
-  videoFaceDownloader.downloadGIF({
-    file: videoFile,
+  videoFaceDownloader({
+    gifSize: 150,
+    frameRate: 10,
+    file: this.files[0],
     onLoad: function (canvas) {
       $('body').append(canvas)
     },
