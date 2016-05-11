@@ -39,6 +39,7 @@
     "gifencoder": "^1.0.6",
     "jquery": "^2.2.3",
     "jquery-facedetection": "^1.0.0",
+    "lodash.sample": "^4.1.1",
     "parse-filepath": "^1.0.1"
   },
   "devDependencies": {

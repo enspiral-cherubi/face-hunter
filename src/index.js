@@ -1,13 +1,25 @@
 import $ from 'jquery'
 import downloadFacesFromVideoAsGIF from './download-faces-from-video-as-gif.js'
 import bowser from 'bowser'
+import sample from 'lodash.sample'
 var $progressIndicator = $('#progress-indicator')
+var exampleGIFUrls = [
+  'http://i.imgur.com/o3v4D4F.gif', // broad city
+  'http://i.imgur.com/KE9YIGC.gif', // bill o reilly + stephen colbert
+  'http://imgur.com/4cNnFgh.gif', // tree marriage
+  'http://i.imgur.com/MXjdccP.gif', // trump
+  'http://i.imgur.com/rLtWCxp.gif', // game of thrones
+  'http://i.imgur.com/VweS6dY.gif', // parks and rec
+  'http://i.imgur.com/bm7Pm1G.gif' // lost
+]
 
 if (bowser.chrome || bowser.firefox) {
   $('#content').show()
 } else {
   $('#browser-warning-screen').show()
 }
+
+$('#gif').attr('src', sample(exampleGIFUrls))
 
 $('#upload-btn').click(() => {
   $('#video-file').trigger('click')
