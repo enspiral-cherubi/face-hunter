@@ -25,9 +25,10 @@ $('#video-file').on('change', function (e) {
       var src = window.URL.createObjectURL(blob)
       var $gif = $(`<img id="gif" src="${src}"/>`)
       $('#upload-container').append($gif)
-      $progressIndicator.text('100%')
+      $progressIndicator.text('100.00%')
       $('#upload-btn').show()
       $('#progress-container').hide()
+      $('#progress-indicator').text('')
     }
   })
 })
