@@ -18,9 +18,23 @@
     <div id="divider"></div>
 
     <div id="upload-container">
-      <div type="button" id="upload-btn">upload video</div>
 
-      <input type="file" id="video-file" />
+      <div id="upload-params">
+        <div id="range-inputs">
+          <div class="range-input-container">
+            <label class="range-input-label" for="gif-size-range">gif size [<span id="gif-size-range-value">300</span>px]</label>
+            <input type="range" id="gif-size-range" class="range-input" value="300" min="50" max="500" step="50"/>
+          </div>
+
+          <div class="range-input-container" id="frame-rate-range-input-container">
+            <label class="range-input-label" for="frame-rate-range">carefulness [<span id="frame-rate-range-value">10</span>]</label>
+            <input type="range" id="frame-rate-range" class="range-input" value="10" min="1" max="25" />
+          </div>
+        </div>
+
+        <input type="file" id="video-file" />
+        <div type="button" id="upload-btn">upload video</div>
+      </div>
 
       <div id="progress-container">
         <div id="progress-indicator">0.00% processed . . .</div>

@@ -65,6 +65,28 @@ body {
   display: none;
 }
 
+/* upload params */
+
+#range-inputs {
+  margin-bottom: 10px;
+}
+
+.range-input-container {
+  display: block;
+  margin: 0 auto;
+  width: 140px;
+}
+
+#frame-rate-range-input-container {
+  margin-top: 7px;
+}
+
+.range-input-label {
+  display: block;
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
 #gif {
   margin-top: 20px;
 }
