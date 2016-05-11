@@ -48,7 +48,7 @@ function downloadFacesFromVideoAsGIF (args) {
       var blob = new Blob([encoder.out.getData()], {type: 'image/gif'})
       var filename = `${parsePath(file.name).stem}.gif`
       download(blob, filename, 'image/gif')
-      if (onComplete) { onComplete() }
+      if (onComplete) { onComplete(blob) }
     }
   })
 }

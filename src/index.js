@@ -13,7 +13,11 @@ $('#video-file').on('change', function (e) {
     onProgress: function (progress) {
       $progressIndicator.text(`${progress}%`)
     },
-    onComplete: function () {
+    onComplete: function (blob) {
+      $('canvas').remove()
+      var src = window.URL.createObjectURL(blob)
+      var $gif = $(`<img src="${src}"/>`)
+      $('body').append($gif)
       $progressIndicator.text('100%')
     }
   })
