@@ -4,7 +4,7 @@ faceDetection($)
 import GIFEncoder from 'gifencoder'
 import download from 'downloadjs'
 
-export default function (args) {
+function downloadFacesFromVideoAsGIF (args) {
   var { gifSize, frameRate, file, onLoad, onProgress, onComplete } = args
 
   var $canvas = $(`<canvas width="${gifSize}" height="${gifSize}"></canvas>`)
@@ -50,3 +50,5 @@ export default function (args) {
     }
   })
 }
+
+export default downloadFacesFromVideoAsGIF

@@ -1,9 +1,9 @@
 import $ from 'jquery'
-import videoFaceDownloader from './video-face-downloader.js'
+import downloadFacesFromVideoAsGIF from './download-faces-from-video-as-gif.js'
 var $progressIndicator = $('#progress-indicator')
 
 $('#video-file').on('change', function (e) {
-  videoFaceDownloader({
+  downloadFacesFromVideoAsGIF({
     gifSize: 150,
     frameRate: 10,
     file: this.files[0],
