@@ -30,8 +30,8 @@ function downloadFacesFromVideoAsGIF (args) {
     i += 1 / frameRate
 
     $(this).faceDetection({
-      interval: 4,
-      minneighbors: 4,
+      interval: 1,
+      minneighbors: 1,
       complete: (faces) => {
         faces.forEach((face) => {
           context.drawImage(this, face.x, face.y, face.width, face.height, 0, 0, gifSize, gifSize)
