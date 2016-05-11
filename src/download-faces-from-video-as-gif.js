@@ -3,6 +3,7 @@ import faceDetection from 'jquery-facedetection'
 faceDetection($)
 import GIFEncoder from 'gifencoder'
 import download from 'downloadjs'
+import parsePath from 'parse-filepath'
 
 function downloadFacesFromVideoAsGIF (args) {
   var { gifSize, frameRate, file, onLoad, onProgress, onComplete } = args
@@ -45,7 +46,8 @@ function downloadFacesFromVideoAsGIF (args) {
     } else {
       encoder.finish()
       var blob = new Blob([encoder.out.getData()], {type: 'image/gif'})
-      download(blob, 'meow.gif', 'image/gif')
+      var filename = `${parsePath(file.name).stem}.gif`
+      download(blob, filename, 'image/gif')
       if (onComplete) { onComplete() }
     }
   })
